@@ -34,10 +34,20 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+
 def printMenu():
+    print("\n")
+    print("*******************************************")
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("1- Inicializar Catalogo")
+    print("2- Cargar información")
+    print("3- Caracterizar las reproducciones")
+    print("4-  Encontrar música para festejar")
+    print("5-  Encontrar música para estudiar")
+    print("6-  Estudiar los géneros musicales")
+    print("6-  Indicar el género musical más escuchado en el tiempo")
+    print("0- Salir")
+    print("*******************************************")
 
 catalog = None
 
@@ -49,9 +59,12 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        cont = controller.init()    
 
     elif int(inputs[0]) == 2:
-        pass
+        print("Cargando información de los archivos ....")
+        controller.loadData(cont)
+        print('Eventos cargados: ' + str(controller.eventsSize(cont)))
 
     else:
         sys.exit(0)

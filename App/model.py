@@ -30,6 +30,7 @@ from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.ADT import orderedmap as om
 assert cf
 
 """
@@ -38,13 +39,61 @@ los mismos.
 """
 
 # Construccion de modelos
+def newCatalogo():
+    """ Inicializa el analizador
+
+    Crea una lista vacia para guardar todos los crimenes
+    Se crean indices (Maps) por los siguientes criterios:
+    -Fechas
+
+    Retorna el analizador inicializado.
+    """
+    catalogo = {'events': None,
+                'dateIndex': None
+                }
+
+    catalogo['events'] = lt.newList('SINGLE_LINKED', compareIds)
+    catalogo['dateIndex'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareDates)
+    return catalogo
 
 # Funciones para agregar informacion al catalogo
+def addEvent(catalogo, evento):
+    """
+    """
+    lt.addLast(catalogo['events'], evento)
+    return catalogo
 
 # Funciones para creacion de datos
 
 # Funciones de consulta
+def eventsSize(catalogo):
+    """
+    Número de crimenes
+    """
+    return lt.size(catalogo['events'])
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
+def compareIds(id1, id2):
+    """
+    Compara dos crimenes
+    """
+    if (id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
+
+def compareDates(date1, date2):
+    """
+    Compara dos fechas
+    """
+    if (date1 == date2):
+        return 0
+    elif (date1 > date2):
+        return 1
+    else:
+        return -1
