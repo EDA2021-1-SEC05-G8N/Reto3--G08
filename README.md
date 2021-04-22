@@ -1,4 +1,6 @@
 #ISIS1225 - Librerias de soporte
+Juan Sebastián Hoyos Muñoz
+Johan Stivens Ardila Tapiero
 
 Este proyecto contiene los Tipos abstractos de datos, estructuras de datos y algoritmos requeridos por el curso ISIS1225-Estructuras de Datos y Algoritmos
 
