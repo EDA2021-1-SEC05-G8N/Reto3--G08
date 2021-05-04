@@ -49,12 +49,15 @@ def newCatalogo():
     Retorna el analizador inicializado.
     """
     catalogo = {'events': None,
-                'dateIndex': None
+                'artistas': None,
+                'pistas': None
                 }
 
     catalogo['events'] = lt.newList('SINGLE_LINKED', compareIds)
-    catalogo['dateIndex'] = om.newMap(omaptype='RBT',
-                                      comparefunction=compareDates)
+    catalogo['artistas'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
+    catalogo['pistas'] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareIds)
     return catalogo
 
 # Funciones para agregar informacion al catalogo
@@ -62,6 +65,8 @@ def addEvent(catalogo, evento):
     """
     """
     lt.addLast(catalogo['events'], evento)
+    om.put(catalogo['artistas'], evento["artist_id"], evento)
+    om.put(catalogo['pistas'], evento["track_id"], evento)
     return catalogo
 
 # Funciones para creacion de datos
@@ -69,8 +74,12 @@ def addEvent(catalogo, evento):
 # Funciones de consulta
 def eventsSize(catalogo):
     """
-    Número de crimenes
+    
     """
+    print("artistas cargados : "+str(om.size(catalogo['artistas'])))
+    print("pistas de audio cargadas : "+str(om.size(catalogo['pistas'])))
+    jajas=om.get(catalogo['artistas'], "fffc3087f84caaa4dea150fa5cf041e8")
+    print(jajas)
     return lt.size(catalogo['events'])
 
 # Funciones utilizadas para comparar elementos dentro de una lista
