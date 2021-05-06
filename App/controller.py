@@ -56,6 +56,11 @@ def loadData(catalogo):
 
 def eventsSize(catalogo):
     """
-    Numero de crimenes leidos
     """
     return model.eventsSize(catalogo)
+
+def reproductchar(catalogo,conten, mini, maxi):
+    model.reproductchar(catalogo, conten, mini, maxi)
+
+def musicfest(cont, min1, max1, min2, max2):
+    model.musicfest(cont, min1, max2, min2, max2)

@@ -66,6 +66,18 @@ while True:
         controller.loadData(cont)
         print('Eventos cargados: ' + str(controller.eventsSize(cont)))
 
+    elif int(inputs[0]) == 3:
+        conten = input('ingrese la caracteristica de contenido\n')
+        mini= input('ingrese el valor minimo\n')
+        maxi = input('ingrese el valor maximo\n')
+        controller.reproductchar(cont, conten, float(mini), float(maxi))
+        sys.exit(0)
+    elif int(inputs[0]) == 4:
+        min1= input('ingrese el Valor mínimo de la característica Energy\n')
+        max1= input('ingrese el Valor máximo de la característica Energy\n')
+        min2= input('ingrese el Valor mínimo de la característica Danceability\n')
+        max2= input('ingrese el Valor máximo de la característica Danceability\n')
+        controller.musicfest(cont, float(min1), float(max1), float(min2), float(max2))
     else:
         sys.exit(0)
 sys.exit(0)
