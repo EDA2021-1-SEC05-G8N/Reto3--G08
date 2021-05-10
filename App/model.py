@@ -29,8 +29,10 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
+from DISClib.DataStructures import listiterator as li
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.ADT import orderedmap as om
+import datetime  
 assert cf
 
 """
@@ -82,7 +84,11 @@ def newCatalogo():
     catalogo['mode'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareIds) 
     catalogo['key'] = om.newMap(omaptype='RBT',
-                                      comparefunction=compareIds)   
+                                      comparefunction=compareIds)
+    catalogo['hashtags'] = om.newMap(omaptype='RBT',
+                                      comparefunction=None)  
+    catalogo['dates'] = om.newMap(omaptype='RBT',
+                                      comparefunction=None)
 
     return catalogo
 
@@ -139,6 +145,16 @@ def addEvent(catalogo, evento):
 
     return catalogo
 
+def createHashtag(catalogo, hashtag):
+    mapa=catalogo['hashtags']
+    llave=(hashtag['user_id'])
+    addhashtag(catalogo,mapa, llave, hashtag)
+
+def createDate(catalogo, date):
+    mapa=catalogo['dates']
+    fecha=date["created_at"].s
+    llave=(date["created_at"])
+    adddates(catalogo,mapa, llave, date)
 # Funciones para creacion de datos
 
 def addcontent (catalogo, mapa, llave, evento):
@@ -150,6 +166,11 @@ def addcontent (catalogo, mapa, llave, evento):
     else:
         datentry = me.getValue(entry)
         lt.addLast(datentry, evento["id"])
+
+def addhashtag(catalogo, mapa, llave, hashtag):
+    entry = om.get(mapa, llave)
+    om.put(mapa, llave, hashtag['user_id'])
+    
 # Funciones de consulta
 def eventsSize(catalogo):
     print("artistas cargados : "+str(om.size(catalogo['artistas'])))
@@ -197,6 +218,64 @@ def musicfest(catalogo, min1, max1, min2, max2):
     print(lt.firstElement(pistas2))
     print("total PISTAS")
     print(lt.size(pistas2))
+
+def aggTempo(catalogo, generos):
+    con=catalogo['events']
+    total = 0 
+    lst=lt.newList()
+    for gen in generos:
+        if gen == "Reggae":
+            minimo = 60 
+            maximo = 90
+        elif gen == "Down-tempo":
+            minimo = 70
+            maximo = 100
+        elif gen == "Chill-out":
+            minimo = 90
+            maximo = 120
+        elif gen == "Hip-hop":
+            minimo = 85
+            maximo = 115
+        elif gen == "Jazz and Funk":
+            minimo = 120
+            maximo = 125
+        elif gen == "Pop":
+            minimo = 100
+            maximo = 130
+        elif gen == "R&B":
+            minimo = 60
+            maximo = 80
+        elif gen == "Rock":
+            minimo = 110
+            maximo = 140
+        elif gen == "Metal":
+            minimo = 100
+            maximo = 160
+        else:
+            minimo = str(input("Valor minimo del tempo:"))
+            maximo = str(input("Valor maximo del tempo:"))
+        tamano = 0
+        rango = om.values(catalogo['tempo'],minimo,maximo)
+        it = li.newIterator(rango)
+        ltt = lt.newList()
+        while li.hasNext(it):
+            vid = li.next(it)
+            s = lt.size(vid)
+            tamano += s
+            it2 = li.newIterator(vid)
+            t=lt.size(ltt)
+            while li.hasNext(it2):
+                ob = li.next(it2)
+                b = lt.isPresent(ltt, ob)
+                if b == 0:
+                    lt.addLast(ltt, ob)
+            siz = lt.size(ltt)
+        ap = (gen, tamano, siz, ltt)
+        lt.addLast(lst, ap)
+        total+=tamano
+    return (total, lst)
+        
+
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista

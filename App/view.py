@@ -44,7 +44,7 @@ def printMenu():
     print("3- Caracterizar las reproducciones")
     print("4-  Encontrar música para festejar")
     print("5-  Encontrar música para estudiar")
-    print("6-  Estudiar los géneros musicales")
+    print("6-  Encontrar los generos segun el tempo")
     print("6-  Indicar el género musical más escuchado en el tiempo")
     print("0- Salir")
     print("*******************************************")
@@ -60,12 +60,10 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         cont = controller.init()    
-
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....")
         controller.loadData(cont)
         print('Eventos cargados: ' + str(controller.eventsSize(cont)))
-
     elif int(inputs[0]) == 3:
         conten = input('ingrese la caracteristica de contenido\n')
         mini= input('ingrese el valor minimo\n')
@@ -78,6 +76,16 @@ while True:
         min2= input('ingrese el Valor mínimo de la característica Danceability\n')
         max2= input('ingrese el Valor máximo de la característica Danceability\n')
         controller.musicfest(cont, float(min1), float(max1), float(min2), float(max2))
+    elif int(inputs[0]) == 5:
+        tipo = input("Ingrese la lista de generos que desea buscar, separado por comas ',': ")
+        tipo=list(tipo.split(", "))
+        ans = controller.generosMusicales(cont, tipo)
+        print("Total de reproducciones:" +str(ans[0]))
+        for a in range(0, (lt.size(ans[1]))):
+            b=lt.getElement(ans[1], a)
+            print("---------{0}---------".format(b[0]))
+            print("{0} reproducciones: {1} con {2} artistas diferentes".format(b[0], b[1], b[2]))
+
     else:
         sys.exit(0)
 sys.exit(0)
