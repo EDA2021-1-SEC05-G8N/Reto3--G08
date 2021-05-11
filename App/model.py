@@ -178,8 +178,8 @@ def reproductchar(catalogo,conten, mini, maxi):
 
 
 def musicfest(catalogo, min1, max1, min2, max2):
-    lst=om.values(catalogo["energy"], 0.5, 0.75)
-    lst2=om.values(catalogo["danceability"], 0.75, 1.0)
+    lst=om.values(catalogo["energy"], min1, max1)
+    lst2=om.values(catalogo["danceability"], min2, max2)
     pistas1=lt.newList()
     for lstdate in lt.iterator(lst):
         for even in lt.iterator(lstdate):
