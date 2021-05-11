@@ -47,8 +47,13 @@ def loadData(catalogo):
     files = cf.data_dir + 'context_content_features-small.csv'
     input_file = csv.DictReader(open(files, encoding="utf-8"),
                                 delimiter=",")
+    files2 = cf.data_dir + 'sentiment_values.csv'
+    input_file2 = csv.DictReader(open(files, encoding="utf-8"),
+                                delimiter=",")
     for evento in input_file:
         model.addEvent(catalogo, evento)
+    for hashtag in input_file2:
+        model.createHashtag(catalogo, hashtag)
     return catalogo
 
 # Funciones de ordenamiento
@@ -134,3 +139,7 @@ def deltaMemory(start_memory, stop_memory):
 
 
     
+    model.musicfest(cont, min1, max2, min2, max2)
+
+def generosMusicales(cont, tipo):
+    return model.aggTempo(cont, tipo)
