@@ -23,7 +23,8 @@
 import config as cf
 import model
 import csv
-
+import time
+import tracemalloc
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -60,7 +61,76 @@ def eventsSize(catalogo):
     return model.eventsSize(catalogo)
 
 def reproductchar(catalogo,conten, mini, maxi):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    ####################################
     model.reproductchar(catalogo, conten, mini, maxi)
+    ####################################
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print(delta_time)
+    print(delta_memory)
+    return 0
 
 def musicfest(cont, min1, max1, min2, max2):
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+    ####################################
     model.musicfest(cont, min1, max2, min2, max2)
+    ####################################
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    print(delta_time)
+    print(delta_memory)
+    return 0
+##############################################33
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0
+
+    # suma de las diferencias en uso de memoria
+    for stat in memory_diff:
+        delta_memory = delta_memory + stat.size_diff
+    # de Byte -> kByte
+    delta_memory = delta_memory/1024.0
+    return delta_memory
+
+
+
+    
